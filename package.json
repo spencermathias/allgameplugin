@@ -1,0 +1,19 @@
+{
+  "name": "allgameplugin",
+  "version": "1.0.0",
+  "description": "sets up website communications using socket io and express that can communicate with a parent server",
+  "main": "comunicationModule.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spencermathias/allgameplugin.git"
+  },
+  "author": "spencer mathias (https://github.com/spencermathias/allgameplugin)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spencermathias/allgameplugin/issues"
+  },
+  "homepage": "https://github.com/spencermathias/allgameplugin#readme"
+}

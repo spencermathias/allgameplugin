@@ -3,7 +3,7 @@ try{
 	internalport=process.argv[2]
 	console.log(process.argv)
 	console.log(internalport)
-	process.send({playerID:'first comunication'})
+	process.send({playerID:'first communication'})
 	mode="withParent"
 }
 catch(err){
