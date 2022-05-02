@@ -1,8 +1,8 @@
 var mode
 try{
-	internalport=process.argv[2]
+	internalPort=process.argv[2]
 	console.log(process.argv)
-	console.log(internalport)
+	console.log(internalPort)
 	process.send({playerID:'first communication'})
 	mode="withParent"
 }
@@ -10,27 +10,27 @@ catch(err){
 	mode="standAlone"
 }
 
-var withParent=require('./comunicationModuleWithParent')
+var withParent=require('./communicationModuleWithParent').default
 
-function getproxyport(defaultport){
-	console.log(internalport)
-	if (internalport==undefined){
-		return defaultport
+function getProxyPort(defaultPort){
+	console.log(internalPort)
+	if (internalPort==undefined){
+		return defaultPort
 	}else{
-		return internalport
+		return internalPort
 	}
 }
 
 var uid =require( 'uid').uid;
 const EventEmitter = require('events');
 var IDs=[]
-var removeplayers=[]
+var removePlayers=[]
 novelCount=0
 
 var withoutParent={
 	socketList:{},
 	moduleColor:'#aaaaaa',
-	savedcommands:[],
+	savedCommands:[],
 	runGameCommand:function(socket,data){
 		try{
 			let player=withoutParent.struct.sockets[socket.userData.myIDinGame]
@@ -61,9 +61,9 @@ withoutParent.struct={
 withoutParent.defaultSocket=function(gameID){
 	return{
 		id:gameID,
-		on: function(command,costomFunction){
+		on: function(command,customFunction){
 			let player=withoutParent.struct.sockets[gameID]
-			player[command]=costomFunction
+			player[command]=customFunction
 			if(arguments.length!=2){
 				console.log("currently you must have 2 arguments, the call and the function")
 			}
@@ -83,24 +83,24 @@ withoutParent.defaultSocket=function(gameID){
 	}
 }
 
-withoutParent.createServer= function(serverConfgObject,closeCondition){
+withoutParent.createServer= function(serverConfigObject,closeCondition){
 	withoutParent.express = require("express");
 	withoutParent.http = require("http");
 	withoutParent.io = require("socket.io")
 	
 	withoutParent.app = withoutParent.express();
 	withoutParent.app.use(withoutParent.express.static("../template files for games/clientComms")); //working directory
-	//Specifying the public folder of the server to make the html accesible using the static middleware
+	//Specifying the public folder of the server to make the html accessible using the static middleware
 	
-	withoutParent.port = serverConfgObject.standAlonePort;
+	withoutParent.port = serverConfigObject.standAlonePort;
 	withoutParent.server = withoutParent.http.createServer(withoutParent.app).listen(withoutParent.port,"0.0.0.0",511,function(){console.log("Server connected to socket: "+withoutParent.port);});//Server listens on the port 8124
 	withoutParent.io = withoutParent.io.listen(withoutParent.server);
 	console.log('opened io server without parent')
-	//withoutParent.myEmiter = new EventEmiter()
-	//withoutParent.myEmiter.on('close',(gameID)=>{
+	//withoutParent.myEmitter = new EventEmitter()
+	//withoutParent.myEmitter.on('close',(gameID)=>{
 	//	if(closeCondition(gameID)){console.log('would have closed')}else{'would not have closed'}
 	//})
-	/*initializing the websockets communication , server instance has to be sent as the argument */
+	/*initializing the webSockets communication , server instance has to be sent as the argument */
 	withoutParent.io.sockets.on("connection", function(socket) {
 		console.log("Connection with client " );
 		let gameID=uid()+novelCount++
@@ -108,7 +108,7 @@ withoutParent.createServer= function(serverConfgObject,closeCondition){
 		
 		socket.on('sendUsername', function (data, callback) {
 			console.log('Socket (server-side): received message:', data);
-			if(serverConfgObject.keepsockets ){
+			if(serverConfigObject.keepSockets ){
 				let index=IDs.findIndex(x=>x==data.ID)
 				if(data.ID!="null" && data.ID!=undefined&&index>-1){
 					IDs.pop()
@@ -147,7 +147,7 @@ withoutParent.createServer= function(serverConfgObject,closeCondition){
 			let player=withoutParent.struct.sockets[socket.userData.myIDinGame]
 			if(player!=undefined&&player.message!=undefined){player.message(message)}
 		});
-		withoutParent.savedcommands=[]
+		withoutParent.savedCommands=[]
 		socket.on("gameCommands",function(data){
 			withoutParent.runGameCommand(socket,data)
 		})
@@ -156,8 +156,8 @@ withoutParent.createServer= function(serverConfgObject,closeCondition){
 	return withoutParent.struct
 }
 	
-withoutParent.clientfiles=function(){
-	let tapp={use:function(expressPath){
+withoutParent.clientFiles=function(){
+	let tApp={use:function(expressPath){
 			if(typeof expressPath =='string'){
 				withoutParent.app.use(withoutParent.express.static(expressPath))
 			}else{
@@ -165,9 +165,9 @@ withoutParent.clientfiles=function(){
 			}
 		}
 	}
-	return tapp
+	return tApp
 }
-withoutParent.proxyport=getproxyport
+withoutParent.proxyPort=getProxyPort
 
 if(mode=="withParent"){
 	module.exports=withParent

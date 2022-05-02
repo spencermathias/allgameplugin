@@ -2,7 +2,7 @@
   "name": "allgameplugin",
   "version": "1.0.0",
   "description": "sets up website communications using socket io and express that can communicate with a parent server",
-  "main": "comunicationModule.js",
+  "main": "communicationModule.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

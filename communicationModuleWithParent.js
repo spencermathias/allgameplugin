@@ -1,10 +1,10 @@
 
-const EventEmitter = require('events');
+import EventEmitter from 'events';
 
 var withParent={
 	socketList:{},
 	moduleColor:'#aaaaaa',
-	savedcommands:[],
+	savedCommands:[],
 	runGameCommand:function(gameID,data){
 		try{
 			let player=withParent.struct.sockets[gameID]
@@ -39,10 +39,10 @@ withParent.defaultSocket=function(gameID){
 	return{
 		id:gameID,
 		userName:gameID,
-		on: function(command,costomFunction){
+		on: function(command,customFunction){
 			let player=withParent.struct.sockets[gameID]
-			player[command]=costomFunction
-			console.log('lodded '+command)
+			player[command]=customFunction
+			console.log('loaded '+command)
 			if(arguments.length!=2){
 				console.log("currently you must have 2 arguments, the call and the function")
 			}
@@ -53,7 +53,7 @@ withParent.defaultSocket=function(gameID){
 		},
 		message:function(data){
 			withParent.message( gameID, "You: " + data, withParent.moduleColor);
-			withparent.message( {from:gameID}, "" + withparent.struct.sockets[gameID].userName + ": " + data.message, chatColor);
+			withParent.message( {from:gameID}, "" + withParent.struct.sockets[gameID].userName + ": " + data.message, chatColor);
 		},
 		broadcast:{
 			id:{from:gameID},
@@ -65,10 +65,10 @@ withParent.defaultSocket=function(gameID){
 	}
 }
 
-withParent.createServer= function(serverConfgObject,closeCondition){
+withParent.createServer= function(serverConfigObject,closeCondition){
 	process.send({playerID:'use',path:"../template files for games/clientComms"})
-	withParent.myEmiter = new EventEmitter()
-	withParent.myEmiter.on('close',(gameID)=>{
+	withParent.myEmitter = new EventEmitter()
+	withParent.myEmitter.on('close',(gameID)=>{
 		if(closeCondition(gameID)){return process.exit(0)}else{'did not close'}
 	})
 	process.on('message', function(dataIn){
@@ -102,8 +102,8 @@ withParent.createServer= function(serverConfgObject,closeCondition){
 	return withParent.struct
 }
 
-withParent.clientfiles=function(){
-	let tapp={use:function(expressPath){
+withParent.clientFiles=function(){
+	let tApp={use:function(expressPath){
 			if(typeof expressPath =='string'){
 				process.send({playerID:'use',path:expressPath})
 			}else{
@@ -111,9 +111,9 @@ withParent.clientfiles=function(){
 			}
 		}
 	}
-	return tapp
+	return tApp
 }
 let std1=process.openStdin()
 
 
-module.exports=withParent
+export defaultwithParent
