@@ -116,4 +116,4 @@ withParent.clientFiles=function(){
 let std1=process.openStdin()
 
 
-export defaultwithParent
+export default withParent
