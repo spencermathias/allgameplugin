@@ -10,7 +10,9 @@ catch(err){
 	mode = "standAlone"
 }
 
-import withParent from './communicationModuleWithParent.js'
+withparent = require("allgameplugin/communicationModuleWithParent.js")
+communicationFile = require("allgameplugin/clientcomunicationModule.js")
+
 
 function getProxyPort(defaultPort){
 	console.log(internalPort)
@@ -21,12 +23,12 @@ function getProxyPort(defaultPort){
 	}
 }
 
-import { uid } from 'uid'
-import EventEmitter from 'events'
+var uid =require( 'uid').uid;
+
 var IDs = []
 var removePlayers = []
 novelCount = 0
-
+console.log(process.cwd())
 var withoutParent = {
 	socketList:{},
 	moduleColor:'#aaaaaa',
@@ -89,9 +91,13 @@ withoutParent.createServer= function(serverConfigObject,closeCondition){
 	withoutParent.io = require("socket.io")
 	
 	withoutParent.app = withoutParent.express();
-	withoutParent.app.use(withoutParent.express.static("./clientComms")); //working directory
+	withoutParent.app.get('/clientComms/clientcomunicationModule.js', function (req, res) {
+		res.send('clientComms='+communicationFile+'');
+	});
 	//Specifying the public folder of the server to make the html accessible using the static middleware
 	
+	//withoutParent.app.use((window,address)=>{communicationFile(window,address)})
+
 	withoutParent.port = serverConfigObject.standAlonePort;
 	withoutParent.server = withoutParent.http.createServer(withoutParent.app).listen(withoutParent.port,"0.0.0.0",511,function(){console.log("Server connected to socket: "+withoutParent.port);});//Server listens on the port 8124
 	withoutParent.io = withoutParent.io.listen(withoutParent.server);

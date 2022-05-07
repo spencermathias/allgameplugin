@@ -1,5 +1,5 @@
 
-import EventEmitter from 'events';
+const EventEmitter = require('events');
 
 var withParent={
 	socketList:{},
@@ -116,4 +116,4 @@ withParent.clientFiles=function(){
 let std1=process.openStdin()
 
 
-export default withParent
+module.exports=withParent
