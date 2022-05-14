@@ -1,6 +1,6 @@
 {
   "name": "allgameplugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "sets up website communications using socket io and express that can communicate with a parent server",
   "main": "communicationModule.js",
   "dependencies": {
