@@ -1,8 +1,13 @@
 {
   "name": "allgameplugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "sets up website communications using socket io and express that can communicate with a parent server",
   "main": "communicationModule.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^4.5.0",
+    "uid": "^2.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

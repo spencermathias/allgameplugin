@@ -1,4 +1,5 @@
 var mode
+const {Server} = require("socket.io")
 try{
 	internalPort = process.argv[2]
 	console.log(process.argv)
@@ -10,8 +11,8 @@ catch(err){
 	mode = "standAlone"
 }
 
-withparent = require("allgameplugin/communicationModuleWithParent.js")
-communicationFile = require("allgameplugin/clientcomunicationModule.js")
+withParent = require("allgameplugin/communicationModuleWithParent.js")
+communicationFile = require("allgameplugin/clientCommunicationModule.js")
 
 
 function getProxyPort(defaultPort){
@@ -88,7 +89,7 @@ withoutParent.defaultSocket = function(gameID){
 withoutParent.createServer= function(serverConfigObject,closeCondition){
 	withoutParent.express = require("express");
 	withoutParent.http = require("http");
-	withoutParent.io = require("socket.io")
+	
 	
 	withoutParent.app = withoutParent.express();
 	withoutParent.app.get('/clientComms/clientcomunicationModule.js', function (req, res) {
@@ -100,7 +101,7 @@ withoutParent.createServer= function(serverConfigObject,closeCondition){
 
 	withoutParent.port = serverConfigObject.standAlonePort;
 	withoutParent.server = withoutParent.http.createServer(withoutParent.app).listen(withoutParent.port,"0.0.0.0",511,function(){console.log("Server connected to socket: "+withoutParent.port);});//Server listens on the port 8124
-	withoutParent.io = withoutParent.io.listen(withoutParent.server);
+	withoutParent.io = new Server(withoutParent.server);
 	console.log('opened io server without parent')
 	//withoutParent.myEmitter = new EventEmitter()
 	//withoutParent.myEmitter.on('close',(gameID) =>{
