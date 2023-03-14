@@ -82,7 +82,8 @@ withoutParent.defaultSocket = function(gameID){
 				console.log('server broadcasts to player '+gameID+'at socket ',socket.id,': ',{command:command,data:data})
 				socket.broadcast.emit("gameCommands",{command:command,data:data})
 			}
-		}
+		},
+		disconnected:false
 	}
 }
 
@@ -92,7 +93,7 @@ withoutParent.createServer= function(serverConfigObject,closeCondition){
 	
 	
 	withoutParent.app = withoutParent.express();
-	withoutParent.app.get('/clientComms/clientcomunicationModule.js', function (req, res) {
+	withoutParent.app.get('/clientComms/clientCommunicationModule.js', function (req, res) {
 		res.send('clientComms='+communicationFile+'');
 	});
 	//Specifying the public folder of the server to make the html accessible using the static middleware
@@ -131,6 +132,7 @@ withoutParent.createServer= function(serverConfigObject,closeCondition){
 				withoutParent.struct.connection(withoutParent.struct.sockets[gameID])
 			}else{
 				let player = withoutParent.struct.sockets[gameID]
+				player.disconnected = false
 				withoutParent.socketList[gameID] = socket
 				withoutParent.runGameCommand(socket,data)
 			}
@@ -147,7 +149,8 @@ withoutParent.createServer= function(serverConfigObject,closeCondition){
 			if(socket.userData == undefined){socket.userData = {}}
 			let player = withoutParent.struct.sockets[socket.userData.myIDinGame]
 			if(player != undefined && player['disconnect'] != undefined){player['disconnect']()}
-			delete withoutParent.socketList[socket.id]
+			player.disconnected = true
+			delete withoutParent.socketList[socket.userData.myIDinGame]
 		});
 		socket.on('message',(message) =>{
 			console.log(message)
